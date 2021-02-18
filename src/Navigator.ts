@@ -1,37 +1,41 @@
 
-import Puppeteer from "puppeteer";
+import {Browser, LaunchOptions, Page} from "puppeteer";
+import PuppetStealth from "puppeteer-extra-plugin-stealth";
+import Puppeteer from "puppeteer-extra";
 import { Config } from ".";
+import { MeetRoom } from "./MeetRoom";
 
 export const LOGIN_LINK = "https://accounts.google.com/signin/v2/identifier?service=classroom&passive=1209600&continue=https%3A%2F%2Fclassroom.google.com%2F%3Femr%3D0&followup=https%3A%2F%2Fclassroom.google.com%2F%3Femr%3D0&flowName=GlifWebSignIn&flowEntry=ServiceLogin";
 export const EMAIL_SELECTOR = "#identifierId";
-export const NEXT_SELECTOR = "#identifierNext";
 
 export async function sleep(ms: number) : Promise<void> {
     return new Promise(resolve => setTimeout(resolve ,ms));
 }
 
+Puppeteer.use(PuppetStealth());
+
 export class Navigator {
     config: Config
-    browser?: Puppeteer.Browser
-    page?: Puppeteer.Page
+    browser?: Browser
+    page?: Page
     constructor(config: Config) {
         this.config = config;
     }
 
     async launch() : Promise<void> {
-        this.browser = await Puppeteer.launch({headless: this.config.settings.headless});
+        this.browser = await Puppeteer.launch({headless: this.config.settings.headless} as LaunchOptions);
         this.page = await this.browser.newPage();
         try {
             await this.page.goto(LOGIN_LINK);
             await this.page.waitForSelector(EMAIL_SELECTOR);
             await this.page.type(EMAIL_SELECTOR, this.config.settings.email);
             await sleep(1000); 
-            await this.page.click(NEXT_SELECTOR);
+            await this.page.keyboard.press("Enter");
             await sleep(2000);
             await this.page.evaluate((pass: string) => [...document.getElementsByTagName("input")].filter(e => e.type === "password")[0].value = pass, this.config.settings.password);
             await sleep(1000);
-            await this.page.evaluate(() => document.getElementsByTagName("button")[1].click());
-            await sleep(5000);
+            await this.page.keyboard.press("Enter");
+            await sleep(6000);
         }catch(err) {
             console.log(err);
         }
@@ -46,7 +50,7 @@ export class Navigator {
             return true;
         }, className);
         if (!isSuccessful) return;
-        await sleep(5000);
+        await sleep(2000);
         const link: string|undefined = await this.page.evaluate(() => {
             const elementOfInterest = [...document.getElementsByTagName("a")].filter(el => el.href.includes("meet.google.com"))[0];
             if (!elementOfInterest) return;
@@ -56,11 +60,11 @@ export class Navigator {
         return link;
     }
 
-    async enterMeet(link: string) : Promise<void> {
+    async enterMeet(link: string) : Promise<MeetRoom|undefined> {
         if (!this.browser) return;
         const meetPage = await this.browser.newPage();
         await meetPage.goto(link);
-
+        return new MeetRoom(meetPage);
     }
 
 }
