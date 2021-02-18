@@ -8,8 +8,10 @@ export interface JoinSettings {
 
 export class MeetRoom {
     page: Puppeteer.Page
+    joined: boolean
     constructor(page: Puppeteer.Page) {
         this.page = page;
+        this.joined = false;
     }
 
     async canJoin(sleepMs = 300) : Promise<boolean> {
@@ -26,9 +28,11 @@ export class MeetRoom {
         await this.page.keyboard.press("Escape");
         await sleep(1000);
         await pressBtns(this.page, settings);
+        this.joined = true;
     }
 
     async leave() : Promise<void> {
+        this.joined = false;
         return this.page.close();
     }
 

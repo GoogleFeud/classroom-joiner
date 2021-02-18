@@ -4,6 +4,7 @@ import PuppetStealth from "puppeteer-extra-plugin-stealth";
 import Puppeteer from "puppeteer-extra";
 import { Config } from ".";
 import { MeetRoom } from "./MeetRoom";
+import {red, blue, green} from "chalk";
 
 export const LOGIN_LINK = "https://accounts.google.com/signin/v2/identifier?service=classroom&passive=1209600&continue=https%3A%2F%2Fclassroom.google.com%2F%3Femr%3D0&followup=https%3A%2F%2Fclassroom.google.com%2F%3Femr%3D0&flowName=GlifWebSignIn&flowEntry=ServiceLogin";
 export const EMAIL_SELECTOR = "#identifierId";
@@ -67,4 +68,26 @@ export class Navigator {
         return new MeetRoom(meetPage);
     }
 
+    log(msg: string, type: LOG_TYPES = 0) : void {
+        if (this.config.settings.logs) console.log(ERROR_TO_FUNC[type](`[${ERROR_TO_STR[type]}] ${msg}`));
+    }
+
 }
+
+export const enum LOG_TYPES {
+    ERROR,
+    INFO,
+    EXCEPTION
+}
+
+const ERROR_TO_FUNC = {
+    0: red,
+    1: blue,
+    2: green
+};
+
+const ERROR_TO_STR = {
+    0: "ERROR",
+    1: "INFO",
+    2: "EXCEPTION"
+};
