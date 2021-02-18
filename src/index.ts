@@ -1,25 +1,19 @@
 
-import {Navigator} from "./Navigator";
+import { LOG_TYPES, Navigator } from "./Navigator";
+import {startSchedule} from "./Scheduler";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const config = require("../config.json") as Config;
 
-const Navi = new Navigator(config);
-
 (async () => {
-    await Navi.launch();
-    const link = await Navi.getMeetLink("Свят и личност");
-    if (!link) return console.log("Couldn't find the meet link to that room!");
-    const room = await Navi.enterMeet(link);
-    if (!room) return console.log("Couldn't find the meet link to that room!");
-    const canJoin = await room.canJoin();
-    if (!canJoin) return console.log("I cannot join that room!");
-    console.log("I can join the room!");
-    room.join();
+    const navi = new Navigator(config);
+    navi.log("Attempting to login with provided credentials", LOG_TYPES.INFO);
+    await navi.launch();
+    startSchedule(navi);
 })();
 
 export interface Config {
-    schedule: Record<string, Class>
+    schedule: Record<string, Array<Class>>
     settings: ConfigSettings
 }
 
@@ -27,11 +21,15 @@ export interface ConfigSettings {
     hereMessage?: string,
     headless: boolean,
     email: string,
-    password: string
+    password: string,
+    toggleMic?: boolean,
+    toggleCam?: boolean,
+    checkInterval?: number,
+    logs?: boolean
 }
 
 export interface Class {
     name: string,
-    start: number,
-    end: number
+    start: Array<number>,
+    end: Array<number>
 }

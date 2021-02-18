@@ -4,8 +4,15 @@
         "monday": [
             {
                 "name": "Subject-1",
-                "start": 7.30,
-                "end": 8.10
+                "start": [7, 30],
+                "end": [8, 10]
+            }
+        ],
+        "thursday": [
+            {
+                "name": "Свят и личност",
+                "start": [20, 8],
+                "end": [20, 11]
             }
         ]
     },
@@ -13,6 +20,10 @@
         "hereMessage": "I am here!",
         "headless": false,
         "email": "volen.slavchev21d@pgi-varna.com",
-        "password": "159123volen1"
+        "password": "159123volen1",
+        "toggleMic": false,
+        "toggleCam": false,
+        "checkInterval": 5000,
+        "logs": true
     }
 }
