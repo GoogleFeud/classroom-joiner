@@ -1,0 +1,18 @@
+
+{
+    "schedule": {
+        "monday": [
+            {
+                "name": "Subject-1",
+                "start": 7.30,
+                "end": 8.10
+            }
+        ]
+    },
+    "settings": {
+        "hereMessage": "I am here!",
+        "headless": false,
+        "email": "volen.slavchev21d@pgi-varna.com",
+        "password": "159123volen1"
+    }
+}
