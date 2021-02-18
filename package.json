@@ -1,0 +1,32 @@
+{
+  "name": "classroom-joiner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsc && node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GoogleFeud/classroom-joiner.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GoogleFeud/classroom-joiner/issues"
+  },
+  "homepage": "https://github.com/GoogleFeud/classroom-joiner#readme",
+  "devDependencies": {
+    "@types/node": "^14.14.28",
+    "@types/puppeteer": "^5.4.3",
+    "@typescript-eslint/eslint-plugin": "^4.15.1",
+    "@typescript-eslint/parser": "^4.15.1",
+    "eslint": "^7.20.0",
+    "typescript": "^4.1.5"
+  },
+  "dependencies": {
+    "puppeteer": "^7.1.0"
+  }
+}
