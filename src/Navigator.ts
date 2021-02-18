@@ -23,7 +23,7 @@ export class Navigator {
     }
 
     async launch() : Promise<void> {
-        this.browser = await Puppeteer.launch({headless: this.config.settings.headless} as LaunchOptions);
+        this.browser = await Puppeteer.launch({headless: this.config.settings.headless, args: ["--use-fake-ui-for-media-stream"]} as LaunchOptions);
         this.page = await this.browser.newPage();
         try {
             await this.page.goto(LOGIN_LINK);
