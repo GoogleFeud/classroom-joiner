@@ -2,6 +2,9 @@
 
 A node.js script which uses `puppeteer` to automatically join your google classroom classes.
 
+## Warning
+
+This code was all created in one day as a challenge. Expect to find some bugs and missing features! 
 
 ## Configuration example
 
@@ -35,11 +38,8 @@ The config should be placed in the root directory of the project, and should be 
         "toggleMic": false, // Toggle the mic setting before joining
         "toggleCam": false, // Toggle the cam setting after joining
         "checkInterval": 5000, // How frequently should the script check if the classroom has a valid google meet link that can be joined
-        "logs": true // If warnings, info and errors should be printed to the console
+        "logs": true, // If warnings, info and errors should be printed to the console
+        "specificMeet": "..." // A link to a specific google meet room. If provided the script will ignore the "schedule" and instantly attempt to join this room.
     }
 }
 ```
-
-## Warning
-
-This code was all created in one day as a challenge. Expect to find some bugs and missing features! 
