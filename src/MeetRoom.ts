@@ -23,11 +23,12 @@ export class MeetRoom {
     }
 
     async join(settings: JoinSettings = {}) : Promise<void> {
+        console.log("Attempting to join");
+        await pressBtns(this.page, settings);
+        await sleep(1000);
         await pressBtns(this.page, settings);
         await sleep(1000);
         await this.page.keyboard.press("Escape");
-        await sleep(1000);
-        await pressBtns(this.page, settings);
         this.joined = true;
     }
 

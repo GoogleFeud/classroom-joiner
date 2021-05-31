@@ -36,7 +36,7 @@ export class Navigator {
             await this.page.evaluate((pass: string) => [...document.getElementsByTagName("input")].filter(e => e.type === "password")[0].value = pass, this.config.settings.password);
             await sleep(1000);
             await this.page.keyboard.press("Enter");
-            await sleep(6000);
+            await this.page.waitForNavigation();
         }catch(err) {
             console.log(err);
         }
@@ -57,7 +57,6 @@ export class Navigator {
             if (!elementOfInterest) return;
             return elementOfInterest.href;
         });
-        await sleep(300);
         return link;
     }
 
@@ -65,6 +64,7 @@ export class Navigator {
         if (!this.browser) return;
         const meetPage = await this.browser.newPage();
         await meetPage.goto(link);
+        await sleep(1000);
         return new MeetRoom(meetPage);
     }
 
